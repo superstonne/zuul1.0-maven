@@ -1,0 +1,8 @@
+ WARN [main] 2019-10-15 23:44:10,006 URLConfigurationSource.java (line 120) No URLs will be polled as dynamic configuration sources.
+ INFO [main] 2019-10-15 23:44:10,205 URLConfigurationSource.java (line 121) To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+ INFO [main] 2019-10-15 23:44:10,390 DynamicPropertyFactory.java (line 281) DynamicPropertyFactory is initialized with configuration sources: com.netflix.config.ConcurrentCompositeConfiguration@7e744f43
+ WARN [main] 2019-10-15 23:44:10,430 ArchaiusIntegrationInterceptor.java (line 34) Application identifier not defined, skipping application level properties loading. You must set a property 'archaius.deployment.applicationId' to be able to load application level properties.
+ INFO [main] 2019-10-15 23:44:10,433 ServerBootstrap.java (line 113) Creating a new governator classpath scanner with base packages: [com.netflix]
+ INFO [main] 2019-10-15 23:44:10,452 ClasspathScanner.java (line 112) Scanning packages : [com.netflix] for annotations [interface com.netflix.governator.annotations.AutoBindSingleton, interface com.google.inject.Inject, interface javax.inject.Inject, interface javax.annotation.Resource, interface javax.annotation.Resources, interface com.netflix.karyon.spi.Application, interface com.netflix.karyon.spi.Component]
+ INFO [main] 2019-10-15 23:44:11,414 Version.java (line 56) Hibernate Validator 4.1.0.Final
+ INFO [main] 2019-10-15 23:44:11,468 ModuleListBuilder.java (line 287) Adding module 'com.netflix.karyon.server.ServerBootstrap$KaryonGuiceModule
