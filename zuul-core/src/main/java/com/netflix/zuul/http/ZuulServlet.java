@@ -17,6 +17,7 @@ package com.netflix.zuul.http;
 
 import com.netflix.zuul.FilterProcessor;
 import com.netflix.zuul.ZuulRunner;
+import com.netflix.zuul.context.Debug;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import org.junit.Before;
@@ -33,6 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -94,6 +96,10 @@ public class ZuulServlet extends HttpServlet {
         } catch (Throwable e) {
             error(new ZuulException(e, 500, "UNHANDLED_EXCEPTION_" + e.getClass().getName()));
         } finally {
+            List<String> debugInfo = Debug.getRequestDebug();
+            for (String str : debugInfo) {
+                System.out.println(str);
+            }
             RequestContext.getCurrentContext().unset();
         }
     }

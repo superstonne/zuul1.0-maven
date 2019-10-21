@@ -40,7 +40,7 @@ public class ZuulFilterPoller {
     ZuulFilterDAO dao;
 
     DynamicBooleanProperty active = DynamicPropertyFactory.getInstance().getBooleanProperty(ZuulConstants.ZUUL_USE_ACTIVE_FILTERS, true);
-    DynamicBooleanProperty canary = DynamicPropertyFactory.getInstance().getBooleanProperty(ZuulConstants.ZUUL_USE_CANARY_FILTERS, false);
+    DynamicBooleanProperty canary = DynamicPropertyFactory.getInstance().getBooleanProperty(ZuulConstants.ZUUL_USE_CANARY_FILTERS, true);
 
 
     private static ZuulFilterPoller INSTANCE;
@@ -137,12 +137,12 @@ public class ZuulFilterPoller {
 
     private void writeFilterToDisk(FilterInfo newFilter) throws IOException {
 
-        String path = DynamicPropertyFactory.getInstance().getStringProperty(ZuulConstants.ZUUL_FILTER_PRE_PATH, null).get();
+        String path = DynamicPropertyFactory.getInstance().getStringProperty(ZuulConstants.ZUUL_FILTER_PRE_PATH, "pre").get();
         if (newFilter.getFilterType().equals("post")) {
-            path = DynamicPropertyFactory.getInstance().getStringProperty(ZuulConstants.ZUUL_FILTER_POST_PATH, null).get();
+            path = DynamicPropertyFactory.getInstance().getStringProperty(ZuulConstants.ZUUL_FILTER_POST_PATH, "post").get();
         }
         if (newFilter.getFilterType().equals("route")) {
-            path = DynamicPropertyFactory.getInstance().getStringProperty(ZuulConstants.ZUUL_FILTER_ROUTING_PATH, null).get();
+            path = DynamicPropertyFactory.getInstance().getStringProperty(ZuulConstants.ZUUL_FILTER_ROUTING_PATH, "route").get();
         }
 
         File f = new File(path, newFilter.getFilterName() + ".groovy");

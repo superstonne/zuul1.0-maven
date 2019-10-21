@@ -15,23 +15,6 @@
  */
 package com.netflix.zuul;
 
-import static com.netflix.zuul.constants.ZuulConstants.ZUUL_CASSANDRA_ENABLED;
-import static com.netflix.zuul.constants.ZuulConstants.ZUUL_FILTER_CUSTOM_PATH;
-import static com.netflix.zuul.constants.ZuulConstants.ZUUL_FILTER_POST_PATH;
-import static com.netflix.zuul.constants.ZuulConstants.ZUUL_FILTER_PRE_PATH;
-import static com.netflix.zuul.constants.ZuulConstants.ZUUL_FILTER_ROUTING_PATH;
-import static com.netflix.zuul.constants.ZuulConstants.ZUUL_NIWS_CLIENTLIST;
-import static com.netflix.zuul.constants.ZuulConstants.ZUUL_NIWS_DEFAULTCLIENT;
-import static com.netflix.zuul.constants.ZuulConstants.ZUUL_RIBBON_NAMESPACE;
-
-import java.io.IOException;
-
-import javax.servlet.ServletContextEvent;
-
-import org.apache.commons.configuration.AbstractConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Throwables;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
@@ -61,10 +44,25 @@ import com.netflix.zuul.plugins.MetricPoller;
 import com.netflix.zuul.plugins.ServoMonitor;
 import com.netflix.zuul.plugins.Tracer;
 import com.netflix.zuul.scriptManager.ZuulFilterDAO;
-import com.netflix.zuul.scriptManager.ZuulFilterDAOCassandra;
+import com.netflix.zuul.scriptManager.ZuulFilterDAOInMemory;
 import com.netflix.zuul.scriptManager.ZuulFilterPoller;
 import com.netflix.zuul.stats.AmazonInfoHolder;
 import com.netflix.zuul.stats.monitoring.MonitorRegistry;
+import org.apache.commons.configuration.AbstractConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletContextEvent;
+import java.io.IOException;
+
+import static com.netflix.zuul.constants.ZuulConstants.ZUUL_CASSANDRA_ENABLED;
+import static com.netflix.zuul.constants.ZuulConstants.ZUUL_FILTER_CUSTOM_PATH;
+import static com.netflix.zuul.constants.ZuulConstants.ZUUL_FILTER_POST_PATH;
+import static com.netflix.zuul.constants.ZuulConstants.ZUUL_FILTER_PRE_PATH;
+import static com.netflix.zuul.constants.ZuulConstants.ZUUL_FILTER_ROUTING_PATH;
+import static com.netflix.zuul.constants.ZuulConstants.ZUUL_NIWS_CLIENTLIST;
+import static com.netflix.zuul.constants.ZuulConstants.ZUUL_NIWS_DEFAULTCLIENT;
+import static com.netflix.zuul.constants.ZuulConstants.ZUUL_RIBBON_NAMESPACE;
 
 /**
  * @author Mikey Cohen
@@ -206,7 +204,7 @@ public class StartServer extends GuiceServletContextListener {
             LOG.info("Getting AstyanaxContext");
             Keyspace keyspace = CassandraHelper.getInstance().getZuulCassKeyspace();
             LOG.info("Initializing Cassandra ZuulFilterDAO");
-            ZuulFilterDAO dao = new ZuulFilterDAOCassandra(keyspace);
+            ZuulFilterDAO dao = new ZuulFilterDAOInMemory();
             LOG.info("Starting ZuulFilter Poller");
             ZuulFilterPoller.start(dao);
         }

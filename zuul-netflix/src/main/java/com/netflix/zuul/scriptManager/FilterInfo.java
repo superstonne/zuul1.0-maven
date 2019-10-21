@@ -50,6 +50,21 @@ public class FilterInfo implements  Comparable<FilterInfo>{
     private final AtomicBoolean isActive = new AtomicBoolean();
     private final AtomicBoolean isCanary = new AtomicBoolean();
 
+    public void setActive() {
+        isActive.set(true);
+        isCanary.set(false);
+    }
+
+    public void setCanary() {
+        isCanary.set(true);
+        isActive.set(false);
+    }
+
+    public void deActive() {
+        isCanary.set(false);
+        isActive.set(false);
+    }
+
     /**
      * Constructors
      */

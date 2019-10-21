@@ -80,7 +80,7 @@ public class FilterScriptManagerServlet extends HttpServlet {
 
     //Set this property to true to enable the admin page. Note that the admin page should be protected to be
     //accessed only internally, not open to the internet.
-    public static DynamicBooleanProperty adminEnabled = DynamicPropertyFactory.getInstance().getBooleanProperty(ZuulConstants.ZUUL_FILTER_ADMIN_ENABLED, false);
+    public static DynamicBooleanProperty adminEnabled = DynamicPropertyFactory.getInstance().getBooleanProperty(ZuulConstants.ZUUL_FILTER_ADMIN_ENABLED, true);
 
     /* DAO for performing CRUD operations with scripts */
     private static ZuulFilterDAO scriptDAO;
@@ -95,7 +95,7 @@ public class FilterScriptManagerServlet extends HttpServlet {
      */
     public FilterScriptManagerServlet() {
         super();
-        if (scriptDAO == null) scriptDAO = new ZuulFilterDAOCassandra(ZuulFilterDAOCassandra.getCassKeyspace());
+        if (scriptDAO == null) scriptDAO = new ZuulFilterDAOInMemory();
 
     }
 
@@ -528,7 +528,7 @@ public class FilterScriptManagerServlet extends HttpServlet {
             when(request.getMethod()).thenReturn("GET");
 
             /* setup mock DAO */
-            ZuulFilterDAO dao = mock(ZuulFilterDAOCassandra.class);
+            ZuulFilterDAO dao = mock(ZuulFilterDAOInMemory.class);
             List<FilterInfo> emptyResponse = Collections.emptyList();
             when(dao.getZuulFiltersForFilterId(anyString())).thenReturn(emptyResponse);
 
@@ -555,7 +555,7 @@ public class FilterScriptManagerServlet extends HttpServlet {
 
             /* setup mock DAO */
 
-            ZuulFilterDAO dao = mock(ZuulFilterDAOCassandra.class);
+            ZuulFilterDAO dao = mock(ZuulFilterDAOInMemory.class);
             List<FilterInfo> scriptsForEndpoint = new ArrayList<FilterInfo>();
             scriptsForEndpoint.add(new FilterInfo("name1:type", "code", "type", "name", "disable", "order", "app"));
             scriptsForEndpoint.add(new FilterInfo("name2:type", "code", "type", "name", "disable", "order", "app"));
@@ -598,7 +598,7 @@ public class FilterScriptManagerServlet extends HttpServlet {
             when(request.getMethod()).thenReturn("GET");
 
             /* setup mock DAO */
-            ZuulFilterDAO dao = mock(ZuulFilterDAOCassandra.class);
+            ZuulFilterDAO dao = mock(ZuulFilterDAOInMemory.class);
             List<String> filters = new ArrayList<String>();
             filters.add("name1:type");
             filters.add("name2:type");
@@ -711,7 +711,7 @@ public class FilterScriptManagerServlet extends HttpServlet {
             when(request.getParameter("revision")).thenReturn("2");
 
             /* setup mock DAO */
-            ZuulFilterDAO dao = mock(ZuulFilterDAOCassandra.class);
+            ZuulFilterDAO dao = mock(ZuulFilterDAOInMemory.class);
             FilterInfo script = mock(FilterInfo.class);
             when(dao.getFilterInfoForFilter(filter_id, 2)).thenReturn(script);
             String code = "code";
@@ -742,7 +742,7 @@ public class FilterScriptManagerServlet extends HttpServlet {
             when(request.getParameter("filter_id")).thenReturn(filter_id);
 
             /* setup mock DAO */
-            ZuulFilterDAO dao = mock(ZuulFilterDAOCassandra.class);
+            ZuulFilterDAO dao = mock(ZuulFilterDAOInMemory.class);
             FilterInfo script = mock(FilterInfo.class);
             when(dao.getLatestFilterInfoForFilter(filter_id)).thenReturn(script);
             when(dao.getFilterInfoForFilter(filter_id, 2)).thenReturn(script);
@@ -772,7 +772,7 @@ public class FilterScriptManagerServlet extends HttpServlet {
             when(request.getParameter("filter_id")).thenReturn(filter_id);
 
             /* setup mock DAO */
-            ZuulFilterDAO dao = mock(ZuulFilterDAOCassandra.class);
+            ZuulFilterDAO dao = mock(ZuulFilterDAOInMemory.class);
             FilterInfo script = mock(FilterInfo.class);
             when(dao.getLatestFilterInfoForFilter(filter_id)).thenReturn(script);
             when(dao.getFilterInfoForFilter(filter_id, 2)).thenReturn(script);
@@ -798,7 +798,7 @@ public class FilterScriptManagerServlet extends HttpServlet {
             when(request.getMethod()).thenReturn("GET");
             when(request.getParameter("action")).thenReturn(action);
 
-            ZuulFilterDAO dao = mock(ZuulFilterDAOCassandra.class);
+            ZuulFilterDAO dao = mock(ZuulFilterDAOInMemory.class);
             FilterScriptManagerServlet servlet = getEndpointScriptManagerImplementation(dao);
             servlet.service(request, response);
 
@@ -822,7 +822,7 @@ public class FilterScriptManagerServlet extends HttpServlet {
             when(request.getParameter("revision")).thenReturn("2");
 
             /* setup mock DAO */
-            ZuulFilterDAOCassandra dao = mock(ZuulFilterDAOCassandra.class);
+            ZuulFilterDAOInMemory dao = mock(ZuulFilterDAOInMemory.class);
 
             /* setup the mock script that will be uploaded */
             FilterInfo script = mockEndpointScript();
@@ -847,7 +847,7 @@ public class FilterScriptManagerServlet extends HttpServlet {
             when(request.getMethod()).thenReturn("POST");
             when(request.getParameter("action")).thenReturn(action);
 
-            ZuulFilterDAO dao = mock(ZuulFilterDAOCassandra.class);
+            ZuulFilterDAO dao = mock(ZuulFilterDAOInMemory.class);
             FilterScriptManagerServlet servlet = getEndpointScriptManagerImplementation(dao);
             servlet.service(request, response);
 
@@ -869,7 +869,7 @@ public class FilterScriptManagerServlet extends HttpServlet {
             when(request.getParameter("action")).thenReturn(action);
             when(request.getParameter("filter_id")).thenReturn(endpoint);
 
-            ZuulFilterDAO dao = mock(ZuulFilterDAOCassandra.class);
+            ZuulFilterDAO dao = mock(ZuulFilterDAOInMemory.class);
             FilterScriptManagerServlet servlet = getEndpointScriptManagerImplementation(dao);
             servlet.service(request, response);
 

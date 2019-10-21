@@ -22,6 +22,12 @@ package com.netflix.zuul.constants;
  * Time: 2:22 PM
  */
 public class ZuulConstants {
+
+    public static final String APPLICATION_NAME = "zuul-gateway";
+    public static final String DEPLOYMENT_APPLICATION_ID = "archaius.deployment.applicationId";
+    public static final String DEPLOY_CONFIG_URL = "archaius.configurationSource.additionalUrls";
+    public static final String DEPLOY_ENVIRONMENT = "archaius.deployment.environment";
+
     public static final String ZUUL_CASSANDRA_ENABLED = "zuul.cassandra.enabled";
     public static final String ZUUL_NIWS_CLIENTLIST = "zuul.niws.clientlist";
     public static final String DEFAULT_NFASTYANAX_READCONSISTENCY = "default.nfastyanax.readConsistency";

@@ -1,7 +1,7 @@
 <%@ page import="com.netflix.zuul.StartServer" %>
 <%@ page import="com.netflix.zuul.scriptManager.FilterInfo" %>
 <%@ page import="com.netflix.zuul.scriptManager.ZuulFilterDAO" %>
-<%@ page import="com.netflix.zuul.scriptManager.ZuulFilterDAOCassandra" %>
+<%@ page import="com.netflix.zuul.scriptManager.ZuulFilterDAOInMemory" %>
 <%@ page import="com.netflix.zuul.dependency.cassandra.CassandraHelper" %>
 <%@ page import="com.netflix.zuul.util.AdminFilterUtil" %>
 <%@ page import="org.slf4j.Logger" %>
@@ -19,7 +19,7 @@
 
     ZuulFilterDAO scriptDAO = null;
     try {
-        scriptDAO = new ZuulFilterDAOCassandra(CassandraHelper.getInstance().getZuulCassKeyspace());
+        scriptDAO = new ZuulFilterDAOInMemory();
     } catch (Exception e) {
         LOG.error(e.getMessage(), e);
     }

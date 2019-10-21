@@ -115,7 +115,7 @@ public class RequestContext extends ConcurrentHashMap<String, Object> {
      * @return true or false depending what was set. default is false
      */
     public boolean getBoolean(String key) {
-        return getBoolean(key, false);
+        return getBoolean(key, true);
     }
 
     /**
